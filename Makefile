@@ -1,4 +1,4 @@
-TOOLCHAIN?=aarch64-linux-gnu-
+TOOLCHAIN?=/opt/cross/bin/aarch64-none-dragonfly-
 
 boot.bin: boot.elf
 	$(TOOLCHAIN)objcopy -O binary boot.elf boot.bin
