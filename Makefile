@@ -1,19 +1,28 @@
-TOOLCHAIN?=/opt/cross/bin/aarch64-none-dragonfly-
+# Main GNU Makefile
+include Makefile.inc
 
-boot.bin: boot.elf
-	$(TOOLCHAIN)objcopy -O binary boot.elf boot.bin
+SUBDIRS = sys/kern
 
-boot.elf: boot.S uart.S caches.S boot.ld kern.c lokern.c subr_prf.c
-	$(TOOLCHAIN)gcc boot.S -c -o boot.o
-	$(TOOLCHAIN)gcc uart.S -c -o uart.o
-	$(TOOLCHAIN)gcc caches.S -c -o caches.o
-	$(TOOLCHAIN)gcc -ffreestanding -fPIE lokern.c -c -O4 -o lokern.o
-	$(TOOLCHAIN)gcc -ffreestanding       subr_prf.c -c -o subr_prf.o
-	$(TOOLCHAIN)gcc -ffreestanding -fPIE kern.c -c -o kern.o
-	$(TOOLCHAIN)ld -T boot.ld -nostdlib -nodefaultlibs boot.o uart.o caches.o lokern.o kern.o subr_prf.o -o boot.elf
+all: boot.bin
+	-@echo ----------------------------------------------------------
+	-@echo Compilation finished at `date`
+	-@echo ----------------------------------------------------------
+
+subdirs:
+	for dir in $(SUBDIRS); do \
+		$(MAKE) -C $$dir; \
+	done
+
+boot.bin: subdirs boot.elf
+	$(TOOLCHAIN)objcopy -O binary $(OBJDIR)/boot.elf $(OBJDIR)/boot.bin
+
+boot.elf:
+	$(TOOLCHAIN)ld -T boot.ld -nostdlib -nodefaultlibs $(KFILES) -o \
+		$(OBJDIR)/boot.elf
 
 clean:
-	rm -f boot.elf boot.bin *.o
+	rm -f $(OBJDIR)/*.o $(OBJDIR)/boot.elf $(OBJDIR)/boot.bin
 
 run: boot.bin
-	qemu-system-aarch64 -serial stdio -M virt -cpu cortex-a57 -m 512 -kernel boot.bin -display none
+	qemu-system-aarch64 -serial stdio -M virt -cpu cortex-a57 -m 512 -kernel \
+		$(OBJDIR)/boot.bin -display none
