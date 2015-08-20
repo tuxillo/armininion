@@ -2,6 +2,9 @@
 include Makefile.inc
 
 SUBDIRS = sys/kern
+QEMUDBG?= int
+QDBGLOG?= /tmp/qemudebug.log
+QMEM?=	  1024
 
 all: boot.bin
 	-@echo ----------------------------------------------------------
@@ -24,5 +27,7 @@ clean:
 	rm -f $(OBJDIR)/*.o $(OBJDIR)/boot.elf $(OBJDIR)/boot.bin
 
 run: clean boot.bin
-	qemu-system-aarch64 -serial stdio -M virt -cpu cortex-a57 -m 512 -kernel \
+	@-rm /tmp/qemudebug.log
+	qemu-system-aarch64 -D $(QDBGLOG) -d $(QEMUDBG) -serial stdio\
+		-M virt -cpu cortex-a57 -m $(QMEM) -kernel \
 		$(OBJDIR)/boot.bin -display none
