@@ -23,6 +23,6 @@ boot.elf:
 clean:
 	rm -f $(OBJDIR)/*.o $(OBJDIR)/boot.elf $(OBJDIR)/boot.bin
 
-run: boot.bin
+run: clean boot.bin
 	qemu-system-aarch64 -serial stdio -M virt -cpu cortex-a57 -m 512 -kernel \
 		$(OBJDIR)/boot.bin -display none
