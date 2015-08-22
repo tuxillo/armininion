@@ -1,6 +1,6 @@
 include ../../Makefile.inc
 
-CFLAGS+= -I${BASEDIR}/sys/include
+CFLAGS+= -I$(BASEDIR)/sys/include
 
 all: $(KFILES)
 

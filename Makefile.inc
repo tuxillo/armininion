@@ -1,5 +1,5 @@
 TOOLCHAIN?=/opt/cross/bin/aarch64-none-dragonfly-
-BASEDIR?=/build/tuxillo/s/armininion
+BASEDIR?=$(CURDIR)/../..
 OBJDIR=${BASEDIR}/build
 CC=${TOOLCHAIN}gcc
 
