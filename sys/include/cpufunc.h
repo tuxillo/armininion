@@ -32,6 +32,16 @@ get_DAIF(void)
 }
 
 static __inline u_int64_t
+get_ID_AA64MMFR0_EL1(void)
+{
+	u_int64_t reg;
+
+	__asm __volatile("mrs %0, ID_AA64MMFR0_EL1" : "=r" (reg));
+
+	return reg;
+}
+
+static __inline u_int64_t
 get_MPIDR_EL1(void)
 {
 	u_int64_t mp;
