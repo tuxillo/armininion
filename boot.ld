@@ -75,7 +75,6 @@ SECTIONS
 		*(.hash)
 		*(.gnu.*)
 		*(.plt)
-		*(.got.plt)
 		*(.rel.plt)
 		*(.ARM.attributes)
 	}

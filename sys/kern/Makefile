@@ -8,7 +8,7 @@ $(OBJDIR)/%.o: %.S
 	$(COMPILE.c) $< -o $@
 
 $(OBJDIR)/%.o: %.c
-	$(COMPILE.c) -ffreestanding $< -o $@
+	$(COMPILE.c) -fPIE -ffreestanding $< -o $@
 
 clean:
 	-rm -fr $(OBJDIR)/*.o
