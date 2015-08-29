@@ -16,10 +16,11 @@ _start:
 	adr x0, __stack_top
 	mov sp, x0
 
-zero_bss_loop:
-	// Zero BSS (XXX: inefficient, byte-by-byte)
 	adr x1, __bss_start
 	adr x2, __bss_end
+
+zero_bss_loop:
+	// Zero BSS (XXX: inefficient, byte-by-byte)
 	cmp x1, x2
 	beq zero_bss_done
 	strb wzr, [x1]
