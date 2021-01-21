@@ -1,4 +1,4 @@
-TOOLCHAIN?=/opt/cross/bin/aarch64-none-dragonfly-
+TOOLCHAIN?=aarch64-none-elf-
 BASEDIR?=$(CURDIR)/../..
 OBJDIR=${BASEDIR}/build
 CC=${TOOLCHAIN}gcc
