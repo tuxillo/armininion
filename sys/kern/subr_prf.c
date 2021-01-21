@@ -218,7 +218,12 @@ ksprintn(char *nbuf, uintmax_t num, int base, int *lenp, int upper)
 int
 kvcprintf(char const *fmt, void (*func)(int, void*), void *arg, int radix, va_list ap)
 {
-#define PCHAR(c) {int cc=(c); if (func) (*func)(cc,arg); else *d++ = cc; retval++; }
+/*
+ * XXX - This MACRO produces a prefetch abort in EL0
+ * Requires investigation.
+ * #define PCHAR(c) {int cc=(c); if (func) (*func)(cc,arg); else *d++ = cc; retval++; }
+ */
+#define PCHAR(c) uart_putc(c, NULL)
 	char nbuf[MAXNBUF];
 	char *d;
 	const char *p, *percent, *q;
