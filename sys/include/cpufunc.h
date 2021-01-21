@@ -61,5 +61,4 @@ get_MIDR_EL1(void)
 	return idr;
 }
 
-
 #endif	/* !_CPU_CPUFUNC_H_ */
