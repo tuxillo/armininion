@@ -144,6 +144,7 @@ kern(void)
 	kprintf("ARMininion kernel initialising...\n");
 	show_cpuinfo();
 	show_meminfo();
+	for (;;);
 
 	return;
 }
